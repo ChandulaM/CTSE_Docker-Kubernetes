@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging-service-k8s
+spec: 
+  selector:
+    matchLabels: 
+      app: messaging-service-k8s
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: messaging-service-k8s
+    spec: 
+      containers:
+        - name: messaging-service-k8s
+          image: chandula1312/messaging-service:v1
+          ports: 
+            - containerPort: 5001 
