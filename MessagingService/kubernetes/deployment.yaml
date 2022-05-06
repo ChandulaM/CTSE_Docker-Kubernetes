@@ -14,6 +14,6 @@ spec:
     spec: 
       containers:
         - name: messaging-service-k8s
-          image: chandula1312/messaging-service:v1
+          image: chandula1312/messaging-service-k8s:v1
           ports: 
             - containerPort: 5001 
