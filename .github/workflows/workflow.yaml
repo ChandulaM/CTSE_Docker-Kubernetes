@@ -20,12 +20,11 @@ jobs:
       - name: Checkout 
         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Setup Node for Messaging Service
         with:
           node-version: '14.x'
           cache: 'npm'
-
+          cache-dependency-path: ./MessagingService/package-lock.json
       - name: Install dependencies for MessagingService
         run: npm ci
         working-directory: MessagingService
