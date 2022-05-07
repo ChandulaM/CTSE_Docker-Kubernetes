@@ -31,6 +31,12 @@ jobs:
         run: npm ci
         working-directory: MessagingService
         
+      - name: cd to MessagingService
+        run: |
+          ls
+          cd MessagingService
+          ls
+        
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
