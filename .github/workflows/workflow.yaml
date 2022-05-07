@@ -24,7 +24,8 @@ jobs:
         with:
           node-version: '14.x'
           cache: 'npm'
-          cache-dependency-path: ./MessagingService/package-lock.json
+          cache-dependency-path: './MessagingService/package-lock.json'
+          
       - name: Install dependencies for MessagingService
         run: npm ci
         working-directory: MessagingService
