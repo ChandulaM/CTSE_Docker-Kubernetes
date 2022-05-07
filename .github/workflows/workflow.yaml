@@ -35,7 +35,6 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           dockerfile: './MessagingService'
-          directory: './MessagingService'
           image: ${{ secrets.DOCKER_USERNAME_CH }}/messaging-service-k8s
           tags: v1, latest
           registry: docker.io
