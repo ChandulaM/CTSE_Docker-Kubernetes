@@ -34,7 +34,7 @@ jobs:
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          dockerfile: './MessagingService'
+          dockerfile: './MessagingService/Dockerfile'
           image: ${{ secrets.DOCKER_USERNAME_CH }}/messaging-service-k8s
           tags: v1, latest
           registry: docker.io
