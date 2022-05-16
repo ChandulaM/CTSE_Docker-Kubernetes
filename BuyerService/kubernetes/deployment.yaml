@@ -15,6 +15,6 @@ spec:
     spec: 
       containers:
         - name: buyer-service-k8s
-          image: ntdil97/buyer-service-k8s:latest
+          image: 2022reg04ctse/buyer-service-k8s:latest
           ports: 
             - containerPort: 5005 
