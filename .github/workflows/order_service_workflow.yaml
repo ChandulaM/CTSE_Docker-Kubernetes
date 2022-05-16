@@ -27,19 +27,19 @@ jobs:
         run: npm ci
         working-directory: OrderService
 
-      - name: Login to docker hub 
-        uses: docker/login-action@v1
+     ## - name: Login to docker hub 
+     ##   uses: docker/login-action@v1
+     ##   with:
+     ##     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+     ##     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
+          dockerfile: './OrderService/Dockerfile'
+          directory: './OrderService'
+          image: ${{ secrets.DOCKER_HUB_USERNAME }}/order-service-k8s
+          tags: v1, latest
+          registry: docker.io
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      - name: Setup Docker BuildX
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build image and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./OrderService
-          file: ./OrderService/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/orderservice:v1
+          password: ${{ secrets.DOCKER_HUB_USERNAME }}
