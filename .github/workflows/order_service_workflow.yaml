@@ -24,7 +24,7 @@ jobs:
           cache-dependency-path: './OrderService/package-lock.json'
 
       - name: Install dependencies for Order Service
-        run: npm i
+        run: npm ci
         working-directory: OrderService
 
       - name: Login to docker hub and push the image
