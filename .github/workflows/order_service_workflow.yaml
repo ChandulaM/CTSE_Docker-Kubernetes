@@ -10,7 +10,7 @@ jobs:
   ##build and deploy image to docker hub
 
   build:
-    name: Build and containerlize order service
+    name: Build and containerize order service
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,8 +38,8 @@ jobs:
         with:
           dockerfile: './OrderService/Dockerfile'
           directory: './OrderService'
-          image: ${{ secrets.DOCKER_HUB_USERNAME }}/order-service-k8s
+          image: ${{ secrets.DOCKER_USERNAME_CH }}/order-service-k8s
           tags: v1, latest
           registry: docker.io
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME_CH }}
+          password: ${{ secrets.DOCKER_PASSWORD_CH }}
