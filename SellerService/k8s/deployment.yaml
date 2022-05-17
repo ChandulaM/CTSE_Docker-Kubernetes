@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seller-service
+spec: 
+  selector:
+    matchLabels: 
+      app: seller-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: seller-service
+    spec: 
+      containers:
+        - name: seller-service
+          image: 2022reg04ctse/seller-service
+          ports: 
+            - containerPort: 5004
