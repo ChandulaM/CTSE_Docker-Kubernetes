@@ -8,7 +8,7 @@ const morgan = require('morgan')
 const mogoose = require('mongoose')
 
 /**DB connection */
-mogoose.connect(process.env.DATABASE, (err) => {
+mogoose.connect("mongodb+srv://admin:nmumbolSULsA5GiN@cluster0.5j22e.mongodb.net/fastlk_order?retryWrites=true&w=majority", (err) => {
     if(err) {
         console.log('Error with connecting DB', err)
     }else {
