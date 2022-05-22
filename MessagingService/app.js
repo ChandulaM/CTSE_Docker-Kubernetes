@@ -25,3 +25,7 @@ app.use('/api/messaging/sms', smsRoute);
 app.listen(PORT, () => {
     console.log(`Messaging service started on port : ${PORT}`);
 });
+
+app.get("/", (req, res) => {
+    res.send("MessagingService is running in the cloud!");
+  });

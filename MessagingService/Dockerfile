@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . /app
 
-CMD node app.js
-
 EXPOSE 5001
+
+CMD ["npm", "start"]

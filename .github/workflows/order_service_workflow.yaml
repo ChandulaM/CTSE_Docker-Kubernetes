@@ -10,7 +10,7 @@ jobs:
   ##build and deploy image to docker hub
 
   build:
-    name: Build and containerlize order service
+    name: Build and containerize order service
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
