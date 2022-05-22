@@ -178,3 +178,17 @@ router.patch("/removeimage/:itemid", validateToken, async (req, res) => {
   }
 });
 module.exports = router;
+
+/*
+
+/api/products/add
+/api/products/view
+/api/products/view
+/api/products/viewbyid/:itemid
+/api/products/view/:sellerid
+
+
+
+
+
+*/
