@@ -43,3 +43,20 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME_CH }}
           password: ${{ secrets.DOCKER_PASSWORD_CH }}
+
+  deploy: 
+    name: Deploy order services to k8s cluster
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploying OrderService
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f OrderService/kubernetes
