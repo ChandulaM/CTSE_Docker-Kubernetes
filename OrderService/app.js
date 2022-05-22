@@ -8,7 +8,13 @@ const morgan = require('morgan')
 const mogoose = require('mongoose')
 
 /**DB connection */
-mogoose.connect("mongodb+srv://admin:nmumbolSULsA5GiN@cluster0.5j22e.mongodb.net/fastlk_order?retryWrites=true&w=majority", (err) => {
+mogoose.connect(
+    "mongodb+srv://admin:nmumbolSULsA5GiN@cluster0.5j22e.mongodb.net/fastlk_order?retryWrites=true&w=majority", 
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    },
+    (err) => {
     if(err) {
         console.log('Error with connecting DB', err)
     }else {
