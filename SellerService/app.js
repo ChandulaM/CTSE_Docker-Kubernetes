@@ -10,14 +10,14 @@ env.config();
 
 const PORT = process.env.PORT || 5004; 
 
-mongoose.connect(process.env.CONNECTION_URL, {
+mongoose.connect("mongodb+srv://chandula:notpassword@cluster0.orv2t.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
 }, () => { console.log("Database connected") });
 
 const sellerRoute = require('./src/controller/sellerController');
 const authRoute = require('./src/controller/authenticationController');
 
-app.listen(PORT, () => console.log(`Server Started on port: ${PORT}`));
+app.listen(PORT,() => console.log(`Server Started on port: ${PORT}`));
 
 app.get("/", (req, res) => {
   res.send("seller is running in the cloud!");
