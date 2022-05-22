@@ -1,4 +1,3 @@
-
 name: CI/CD Pipeline for backend services
 
 on:
@@ -18,20 +17,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v3    
+ 
       - name: Setup Node for Messaging Service
         uses: actions/setup-node@v3
         with:
           node-version: '14.x'
           cache: 'npm'
           cache-dependency-path: './MessagingService/package-lock.json'
-          
+     
+      - name: Setup Node for Buyer Service
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.17.0'
+          cache: 'npm'
+          cache-dependency-path: './BuyerService/package-lock.json'
+
+      - name: Setup node for order service
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+          cache-dependency-path: './OrderService/package-lock.json'
+
+      - name: Setup node for Seller service
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+          cache-dependency-path: './SellerService/package-lock.json'
+        
       - name: Install dependencies for MessagingService
         run: npm ci
         working-directory: MessagingService
         
-      - name: Build and push Docker image
+      - name: Install dependencies for BuyerService
+        run: npm ci
+        working-directory: BuyerService
+
+      - name: Install dependencies for Order Service
+        run: npm ci
+        working-directory: OrderService   
+
+      - name: Install dependencies for Seller Service
+        run: npm ci
+        working-directory: SellerService     
+
+
+      - name: Build and push Docker image for MessagingService
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           dockerfile: './MessagingService/Dockerfile'
@@ -41,9 +74,41 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME_CH }}
           password: ${{ secrets.DOCKER_PASSWORD_CH }}
+      
+      - name: Build and push Docker image of Buyerservice
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          dockerfile: './BuyerService/Dockerfile'
+          directory: './BuyerService'
+          image: ${{ secrets.DOCKER_USERNAME_CH }}/buyer-service-k8s
+          tags: v1, latest
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME_CH }}
+          password: ${{ secrets.DOCKER_PASSWORD_CH }}
 
-    ## Repeat steps Install dependencies and build docker image for other services
+      - name: Build and push Docker image for OrderService
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          dockerfile: './OrderService/Dockerfile'
+          directory: './OrderService'
+          image: ${{ secrets.DOCKER_USERNAME_CH }}/order-service-k8s
+          tags: v1, latest
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME_CH }}
+          password: ${{ secrets.DOCKER_PASSWORD_CH }}
+          
+      - name: Build and push Docker image for SellerService
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          dockerfile: './SellerService/Dockerfile'
+          directory: './SellerService'
+          image: ${{ secrets.DOCKER_USERNAME_CH }}/seller-service-k8s
+          tags: v1, latest
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME_CH }}
+          password: ${{ secrets.DOCKER_PASSWORD_CH }}
 
+          
   deploy: 
     name: Deploy services to k8s cluster
     needs: build
@@ -60,4 +125,34 @@ jobs:
           ZONE_NAME: ${{ env.GKE_ZONE }}
         with:
           args: apply -f MessagingService/kubernetes
+          
+      - name: Deploying BuyerService
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f BuyerService/kubernetes
+
+      - name: Deploying OrderService
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f OrderService/kubernetes
+
+      - name: Deploying SellerService
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f SellerService/k8s
 
